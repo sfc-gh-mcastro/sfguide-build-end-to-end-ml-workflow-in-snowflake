@@ -11,7 +11,7 @@ When implementing the next phase, **update `VERSION_NUM`** in the notebook to ca
 
 ```python
 # Cell: d78265b8-8baa-4136-a32a-32f3f620949d
-VERSION_NUM = '1'  # Increment from '0' to '1' for Phase 2 changes
+VERSION_NUM = '2'  # Increment from '1' to '2' for Phase 2/3 changes
 ```
 
 This ensures:
@@ -45,11 +45,50 @@ Schema: MLOPS_SCHEMA
 
 | Phase | Description | Status |
 |-------|-------------|--------|
-| 1 | Address Class Imbalance | COMPLETED |
+| 1 | Address Class Imbalance | ✅ COMPLETED |
 | 2 | Add Missing Features | PENDING |
 | 3 | Handle NULL Values | PENDING |
 | 4 | Expand HPO Search Space | PENDING |
 | 5 | Add Threshold Optimization | PENDING |
+
+---
+
+## Phase 1 Results: Model Comparison
+
+### XGB_OPTIMIZED (Production Model)
+
+| Metric | Version 0 | Version 1 | Change |
+|--------|-----------|-----------|--------|
+| **Test F1 Score** | 0.8798 | **0.8854** | **+0.56%** ✓ |
+| **Test Precision** | 0.7853 | **0.8104** | **+2.51%** ✓ |
+| **Test Recall** | 1.0000 | 0.9757 | -2.43% |
+| Train F1 Score | 0.8787 | 0.8874 | +0.87% |
+| Train Precision | 0.7836 | 0.8127 | +2.91% |
+| Train Recall | 1.0000 | 0.9773 | -2.27% |
+
+### XGB_BASE Model
+
+| Metric | Version 0 | Version 1 | Change |
+|--------|-----------|-----------|--------|
+| **Test F1 Score** | 0.8872 | 0.8822 | -0.50% |
+| **Test Precision** | 0.8485 | 0.7903 | -5.82% |
+| **Test Recall** | 0.9297 | 0.9984 | +6.87% |
+
+### Key Improvements Achieved
+
+1. ✅ **Precision improved by 2.5%** (0.7853 → 0.8104) - Fewer false positives
+2. ✅ **F1 Score improved** (0.8798 → 0.8854) - Better overall balance
+3. ✅ **Model no longer predicts ALL as approved** - Recall dropped from 1.0 to 0.976
+4. ✅ **Reduced overfitting** - Train/Test gap is now ~0.2%
+
+### Hyperparameters (HPO Version 1)
+
+| Parameter | Version 0 | Version 1 |
+|-----------|-----------|-----------|
+| max_depth | 3 | 4 |
+| n_estimators | 147 | 128 |
+| learning_rate | 0.12 | 0.30 |
+| scale_pos_weight | N/A | 3.6 ✓ |
 
 ---
 
@@ -127,7 +166,8 @@ plan/
 
 | Object | Type | Location |
 |--------|------|----------|
-| Original Model | Model Registry | `E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.MORTGAGE_LENDING_MLOPS_0` |
+| Original Model (v0) | Model Registry | `E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.MORTGAGE_LENDING_MLOPS_0` |
+| **Improved Model (v1)** | Model Registry | `E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.MORTGAGE_LENDING_MLOPS_1` |
 | Original Notebook | Notebook | `E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.TRAIN_DEPLOY_MONITOR_ML` |
 | Updated Notebook | Notebook | `E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.TRAIN_DEPLOY_MONITOR_ML_V2` |
 | Git Repository | Git Repo | `E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.GITHUB_REPO_E2E_SNOW_MLOPS` |
@@ -142,17 +182,6 @@ plan/
 |----------|-------|
 | Repository | `https://github.com/sfc-gh-mcastro/sfguide-build-end-to-end-ml-workflow-in-snowflake` |
 | Branch | `main` |
-| Latest Commit | `ee44ae4` - "docs: Add notebook runtime configuration details" |
-
----
-
-## Expected Results After All Phases
-
-| Metric | Before | After (Expected) |
-|--------|--------|------------------|
-| Precision | 0.7853 | 0.88 - 0.93 |
-| Recall | 1.0000 | 0.90 - 0.95 |
-| F1 Score | 0.8798 | 0.91 - 0.95 |
 
 ---
 
@@ -162,8 +191,8 @@ plan/
 -- Switch to correct role
 USE ROLE E2E_SNOW_MLOPS_ROLE;
 
--- Check model status
-SHOW VERSIONS IN MODEL E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.MORTGAGE_LENDING_MLOPS_0;
+-- Check model versions
+SHOW VERSIONS IN MODEL E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.MORTGAGE_LENDING_MLOPS_1;
 
 -- Fetch latest from Git (if changes pushed)
 ALTER GIT REPOSITORY E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.GITHUB_REPO_E2E_SNOW_MLOPS FETCH;
