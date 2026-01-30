@@ -32,6 +32,13 @@ Database: E2E_SNOW_MLOPS_DB
 Schema: MLOPS_SCHEMA
 ```
 
+### Notebook Configuration
+| Setting | Value |
+|---------|-------|
+| Compute Pool | `MLOPS_COMPUTE_POOL` (container runtime) |
+| Idle Timeout | 4 hours (14400 seconds) |
+| Query Warehouse | `E2E_SNOW_MLOPS_WH` |
+
 ---
 
 ## Current Status
