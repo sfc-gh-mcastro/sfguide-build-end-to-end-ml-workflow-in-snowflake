@@ -342,6 +342,15 @@ E2E_SNOW_MLOPS_DB (Database)
     │
     └── Tags
         └── PROD                               # Production model tag
+
+Local Repository Structure:
+├── data/                          # Source data files
+├── notebooks/                     # Jupyter notebooks
+│   └── archive/                   # Previous versions
+├── sql/                           # SQL scripts
+├── docs/                          # Documentation
+├── assets/                        # Images
+└── environment.yml                # Dependencies
 ```
 
 ### Compute Resources
