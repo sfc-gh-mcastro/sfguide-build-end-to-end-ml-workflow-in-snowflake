@@ -5,6 +5,22 @@
 
 ---
 
+## IMPORTANT: Version Control
+
+When implementing the next phase, **update `VERSION_NUM`** in the notebook to capture changes:
+
+```python
+# Cell: d78265b8-8baa-4136-a32a-32f3f620949d
+VERSION_NUM = '1'  # Increment from '0' to '1' for Phase 2 changes
+```
+
+This ensures:
+- New feature views are created (not overwritten)
+- New model versions are registered separately
+- Clear lineage between model iterations
+
+---
+
 ## Quick Resume Guide
 
 To continue this work, run the updated notebook in Snowflake:

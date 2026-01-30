@@ -317,6 +317,12 @@ The key improvement is that the model will no longer predict ALL cases as positi
 
 ## Implementation Order
 
+> **IMPORTANT**: Before implementing each phase, increment `VERSION_NUM` in cell `d78265b8-8baa-4136-a32a-32f3f620949d`:
+> ```python
+> VERSION_NUM = '1'  # Change from '0' to '1', '2', etc.
+> ```
+> This creates new feature views and model versions instead of overwriting existing ones.
+
 1. **Phase 1** (Critical) - Fix class imbalance first
 2. **Phase 3** - Fix NULL handling (needed before Phase 2)
 3. **Phase 2** - Add new features
