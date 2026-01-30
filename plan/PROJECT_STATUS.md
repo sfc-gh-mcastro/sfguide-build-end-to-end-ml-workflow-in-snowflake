@@ -1,6 +1,6 @@
 # Project Status: Mortgage Lending Model Optimization
 
-> **Last Updated**: 2026-01-29 12:50 PST
+> **Last Updated**: 2026-01-30
 > **Project Goal**: Improve MORTGAGE_LENDING_MLOPS_0 model performance
 
 ---
@@ -142,7 +142,7 @@ plan/
 |----------|-------|
 | Repository | `https://github.com/sfc-gh-mcastro/sfguide-build-end-to-end-ml-workflow-in-snowflake` |
 | Branch | `main` |
-| Latest Commit | `88f15ba` - "fix: Address class imbalance in XGBoost base model (Phase 1)" |
+| Latest Commit | `ee44ae4` - "docs: Add notebook runtime configuration details" |
 
 ---
 
